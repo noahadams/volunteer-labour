@@ -1,11 +1,21 @@
-;(function(){
+;(function() {
     // Hide postMessage API
     var _postMessage = this.postMessage;
     var _onmessage = this.onmessage;
+    var _addEventListener = this.addEventListener;
 
-    delete this["postMessage"];
-    delete this["onmessage"];
+    // hide postMessage API from other scopes
+    var hiddenPropertyDescriptor = {
+        writeable: false,
+        value: undefined
+    };
     
+    Object.defineProperties(this, {
+        "onmessage": hiddenPropertyDescriptor,
+        "postMessage": hiddenPropertyDescriptor,
+        "addEventListener": hiddenPropertyDescriptor
+    });
+
     // Setup state machine
     var _STATES = {
         READY: 0,
@@ -74,7 +84,7 @@
     };
 
     // message handler
-    this.addEventListener("message", function(event) {
+    _addEventListener("message", function(event) {
         // stop this message from being seen by others
         event.preventDefault();
         //event.cancelBubble();
