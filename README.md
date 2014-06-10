@@ -1,4 +1,4 @@
-# jsGrid
+# volunteer labour
 Sketching out a distributed batch queue for javascript (on the browser)
 
 ## Install
